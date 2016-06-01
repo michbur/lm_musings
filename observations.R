@@ -10,4 +10,4 @@ y2[6] <- y[6] + 2000000
 
 lm(y2 ~ x)
 
-# if the number of points is unequal, the middle point does not seem to have any influence
+# if the number of points is unequal, the middle point seems to have no influence
