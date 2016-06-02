@@ -7,31 +7,39 @@
 
 source("functions.R")
 
+# easy example ----------------------------------
 x <- 1L:10
 y <- 1.5*x + 0.5 + rnorm(10)
 
+dat <- get_borders(x, y)
+
+plot(dat[["x"]], dat[["borders"]], col = "red")
+points(dat[["x"]], dat[["y"]])
+abline(lm(y ~ x))
+
+
+# harder example ----------------------------------
+x <- 1L:10
+y <- 1.5*x + 0.5 + rnorm(10)*10
+
 sim_dat_res <- get_borders(x, y)
-plot_borders(sim_dat_res)
+
+plot(dat[["x"]], dat[["borders"]], col = "red")
+points(dat[["x"]], dat[["y"]])
+abline(lm(y ~ x))
+
+# AS dat
 
 as_dat <- read.csv("as_dat.csv")
   
-as_dat_res <- get_borders(as_dat[[1]], as_dat[[2]], 50)
+as_dat_res <- get_borders(as_dat[[1]], as_dat[[2]], 1)
 
-mat <- cbind(1, as_dat[[1]])
+plot(as_dat_res[["x"]], as_dat_res[["borders"]], col = "red")
+points(as_dat_res[["x"]], as_dat_res[["y"]])
+abline(lm(y ~ x))
 
-borderize_single(mat, as_dat[[2]], 2, 50)
-
-
-plot_borders(as_dat_res)
-
-x <- as_dat[[1]]
-y <- as_dat[[2]]
-m <- lm(y ~ x)
-plot(x, y)
-abline(m)
-
-y2 <- as_dat[[2]]
-y2[1] <- as_dat_res[["y_border"]][1]
-plot(x, y2)
-m2 <- lm(y2 ~ x)
-abline(m2)
+ggplot(as_dat_res, aes(x = x, y = y)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  geom_point(aes(x = x, y = y_border, color = factor(side))) +
+  geom_polygon(aes(x = x, y = y_border, fill = factor(side)))
