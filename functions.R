@@ -70,3 +70,10 @@ get_borders <- function(x, y, step = 50) {
 
 #dat <- get_borders(x, y, 1)
 
+plot_borders <- function(dat)
+  ggplot(dat, aes(x = x, y = y)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  geom_point(aes(x = x, y = y_border, color = factor(side))) +
+  geom_line(aes(x = x, y = y_border, color = factor(side)), linetype = "dashed")
+

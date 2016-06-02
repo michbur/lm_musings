@@ -13,33 +13,30 @@ y <- 1.5*x + 0.5 + rnorm(10)
 
 dat <- get_borders(x, y)
 
-plot(dat[["x"]], dat[["borders"]], col = "red")
-points(dat[["x"]], dat[["y"]])
-abline(lm(y ~ x))
-
+plot_borders(dat)
 
 # harder example ----------------------------------
 x <- 1L:10
 y <- 1.5*x + 0.5 + rnorm(10)*10
 
-sim_dat_res <- get_borders(x, y)
+dat <- get_borders(x, y)
 
-plot(dat[["x"]], dat[["borders"]], col = "red")
-points(dat[["x"]], dat[["y"]])
-abline(lm(y ~ x))
+plot_borders(dat)
 
-# AS dat
+# ideal example ----------------------------------
+x <- 1L:10
+y <- 1.5*x + 0.5 + rnorm(10)
+y[2] <- y[2] + 20
+dat <- get_borders(x, y)
+
+plot_borders(dat)
+
+# there are no ideal example. the distance between border and the point always depends on its position in the regression.
+
+# AS dat ----------------------------
 
 as_dat <- read.csv("as_dat.csv")
   
-as_dat_res <- get_borders(as_dat[[1]], as_dat[[2]], 1)
+as_dat_res <- get_borders(as_dat[[1]], as_dat[[2]], 0.1)
 
-plot(as_dat_res[["x"]], as_dat_res[["borders"]], col = "red")
-points(as_dat_res[["x"]], as_dat_res[["y"]])
-abline(lm(y ~ x))
-
-ggplot(as_dat_res, aes(x = x, y = y)) +
-  geom_point() +
-  stat_smooth(method = "lm", se = FALSE) +
-  geom_point(aes(x = x, y = y_border, color = factor(side))) +
-  geom_polygon(aes(x = x, y = y_border, fill = factor(side)))
+plot_borders(as_dat_res)
