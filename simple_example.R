@@ -1,11 +1,6 @@
-# influence(m)
-
-# cooks.distance(m2)
-
-# library(car)
-# leveragePlots(m)
-
 source("functions.R")
+
+set.seed(1792)
 
 # easy example ----------------------------------
 x <- 1L:10
@@ -27,6 +22,7 @@ plot_borders(dat)
 x <- 1L:10
 y <- 1.5*x + 0.5 + rnorm(10)
 y[2] <- y[2] + 20
+y[3] <- y[3] + 20
 dat <- get_borders(x, y)
 
 plot_borders(dat)
